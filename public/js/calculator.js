@@ -53,7 +53,7 @@ function getFormData() {
     let formData = {}
     const fieldWrappers = document.querySelectorAll(".formField")
 
-    fieldWrappers.forEach(function(fieldWrapper) {
+    fieldWrappers.forEach(function (fieldWrapper) {
         let field = fieldWrapper.querySelector('.field')
         formData[field.name] = field.value
     })

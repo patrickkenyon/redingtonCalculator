@@ -1,0 +1,2 @@
+Probability A: 0.5 Probability B: 0.8 Result: 0.4 Calculation type: combinedWith Date: 2018-12-01
+Probability A: 0.5, Probability B: 0.8, Result: 0.4, Calculation type: combinedWith, Date: 2018-12-01

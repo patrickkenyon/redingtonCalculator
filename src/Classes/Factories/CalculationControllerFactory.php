@@ -4,13 +4,13 @@ namespace Calculator\Factories;
 
 
 use Calculator\Controllers\CalculationController;
-use Psr\Container\ContainerInterface;
+use Calculator\Models\CalculationModel;
 
 class CalculationControllerFactory
 {
-    public function __invoke(ContainerInterface $container): CalculationController
+    public function __invoke()
     {
-        $calculationModel = $container->get('CalculationModel');
+        $calculationModel = new CalculationModel();
         return new CalculationController($calculationModel);
     }
 }
