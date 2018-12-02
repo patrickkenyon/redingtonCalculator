@@ -9,7 +9,7 @@ class CalculationModel
 {
     private const CALCULATION_LOG = 'calculationLog.txt';
 
-    public static function log(CalculationEntity $calculationEntity)
+    public static function log(CalculationEntity $calculationEntity): bool
     {
         $calculationLog = fopen(self::CALCULATION_LOG, 'a+');
         $success = fwrite($calculationLog,

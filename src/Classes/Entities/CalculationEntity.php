@@ -18,7 +18,7 @@ class CalculationEntity
      * @param $result
      * @param $calcType
      */
-    public function __construct($probabilityA, $probabilityB, $result, $calcType)
+    public function __construct(string $probabilityA, string $probabilityB, string $result, string $calcType)
     {
         $this->probabilityA = $probabilityA;
         $this->probabilityB = $probabilityB;
@@ -30,7 +30,7 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getProbabilityA()
+    public function getProbabilityA(): string
     {
         return $this->probabilityA;
     }
@@ -38,7 +38,7 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getProbabilityB()
+    public function getProbabilityB(): string
     {
         return $this->probabilityB;
     }
@@ -46,7 +46,7 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getResult()
+    public function getResult(): string
     {
         return $this->result;
     }
@@ -54,7 +54,7 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getCalcType()
+    public function getCalcType():string
     {
         return $this->calcType;
     }
@@ -62,7 +62,7 @@ class CalculationEntity
     /**
      * @return false|string
      */
-    public function getDate()
+    public function getDate(): string
     {
         return $this->date;
     }

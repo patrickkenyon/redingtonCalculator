@@ -14,14 +14,8 @@ document.querySelector('form').addEventListener('submit', function (e) {
         error.classList.add('error')
 
         if (field.dataset.required) {
-            if (!validateRequired(field.value)) {
-                error.innerText += 'Field is required '
-                formField.appendChild(error)
-            }
-        }
-        if (field.dataset.postcode) {
-            if (!validatePostcode(field.value)) {
-                error.innerText += 'Invalid postcode'
+            if (!validateField(field.value)) {
+                error.innerText += 'Please enter a number between 0 and 1.'
                 formField.appendChild(error)
             }
         }
@@ -34,29 +28,31 @@ document.querySelector('form').addEventListener('submit', function (e) {
 })
 
 /**
- * Checks if input is blank
+ * Checks if input is given and whether it is a number between 0 and 1.
  *
- * @param input value of field to be checked
- * @returns {boolean} false if blank, else true
+ * @param input value of field to be checked.
+ * @returns {boolean} false unless input is a number between 0 and 1.
  */
-function validateRequired(input) {
-    return (input !== '')
+function validateField(input) {
+    return (input !== '' && input >= 0 && input <= 1 && !isNaN(input))
 }
 
 
 /**
- * Retrieves values from form fields
+ * Retrieves values from form fields.
  *
- * @returns {object} keys as field names & values as field values
+ * @returns {object} with keys as field names and value as the field value, object also contains the calculation type.
  */
 function getFormData() {
     let formData = {}
     const fieldWrappers = document.querySelectorAll(".formField")
+    let combinedWithChecked = document.querySelector("#combinedWith").checked
 
     fieldWrappers.forEach(function (fieldWrapper) {
         let field = fieldWrapper.querySelector('.field')
         formData[field.name] = field.value
     })
+    combinedWithChecked ? formData['calcType'] = 'combinedWith' : formData['calcType'] = 'either'
     return formData
 }
 
@@ -84,10 +80,10 @@ async function fetchData(formData) {
  */
 function sendRequest(formData) {
     fetchData(formData).then(function (data) {
-        if (data.status) {
+        if (data.success) {
             document.querySelector('.statusMessage').textContent = 'Success!'
         } else {
-            document.querySelector('.statusMessage').textContent = 'Server error.'
+            document.querySelector('.statusMessage').textContent = 'Logging error'
         }
     }).catch(function (err) {
         document.querySelector('.statusMessage').textContent = 'Ajax error: ' + err

@@ -3,9 +3,9 @@
 namespace Calculator\Controllers;
 
 
-use Calculator\CalculationValidator;
 use Calculator\Entities\CalculationEntity;
 use Calculator\Models\CalculationModel;
+use Calculator\Validators\ProbabilityValidator;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -22,41 +22,45 @@ class CalculationController
         $this->calculationModel = $calculationModel;
     }
 
-    public function __invoke(Request $request, Response $response)
+    public function __invoke(Request $request, Response $response): Response
     {
         $data = [
             'success' => false,
-            'msg' => 'Calculation not logged.',
+            'msg' => 'Failed to log calculation.',
             'data' => []
         ];
         $statusCode = 406;
 
         $probabilities = $request->getParsedBody();
+        $calcType = $probabilities['calcType'];
+        unset($probabilities['calcType']);
 
-        $validProbabilities = CalculationValidator::isValidProbability($data);
+        $validProbabilityOne = ProbabilityValidator::isValidProbability($probabilities['probabilityOne']);
+        $validProbabilityTwo = ProbabilityValidator::isValidProbability($probabilities['probabilityTwo']);
 
-        if (!$validProbabilities) {
+        if (!$validProbabilityOne || !$validProbabilityTwo) {
             return $response->withJson($data, $statusCode);
         }
 
-        $result = $this->combinedWith($probabilities['probabilityOne'], $probabilities['probabilityTwo']);
+        if ($calcType == 'combinedWith') {
+            $result = $this->combinedWith(floatval($probabilities['probabilityOne']), $probabilities['probabilityTwo']);
+        } elseif ($calcType == 'either') {
+            $result = $this->either($probabilities['probabilityOne'], $probabilities['probabilityTwo']);
+        } else {
+            return $response->withJson($data, $statusCode);
+        }
 
         $calculationEntity = new CalculationEntity(
             $probabilities['probabilityOne'],
             $probabilities['probabilityTwo'],
             $result,
-            'combinedWith'
+            $calcType
         );
 
         try {
             $successfulLog = $this->calculationModel->log($calculationEntity);
-        } catch (\Exception $e) {
-            $statusCode = 500;
-            var_dump('exception');
-            return $response->withJson($data, $statusCode);
         } catch (\Error $e) {
             $statusCode = 500;
-            var_dump('error');
             return $response->withJson($data, $statusCode);
         }
 
@@ -71,12 +75,12 @@ class CalculationController
         return $response->withJson($data, $statusCode);
     }
 
-    public function combinedWith($probA, $probB)
+    public function combinedWith(string $probA, string $probB): string
     {
         return $probA * $probB;
     }
 
-    public function either($probA, $probB)
+    public function either(string $probA, string $probB): string
     {
         return $probA + $probB - ($probA * $probB);
     }
