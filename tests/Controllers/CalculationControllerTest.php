@@ -18,16 +18,16 @@ class CalculationControllerTest Extends TestCase
     ];
 
     public $successData = [
-            'success' => true,
-            'msg' => 'Successfully logged the calculation.',
-            'result' => '0.28'
+        'success' => true,
+        'msg' => 'Successfully logged the calculation.',
+        'result' => '0.28'
     ];
 
     public $failureData = [
-            'success' => false,
-            'msg' => 'Failed to log calculation.',
-            'result' => ''
-        ];
+        'success' => false,
+        'msg' => 'Failed to log calculation.',
+        'result' => ''
+    ];
 
     public function testConstruct()
     {
@@ -128,7 +128,6 @@ class CalculationControllerTest Extends TestCase
 //
 //        $this->assertTrue($result);
 //    }
-
 
 
 }

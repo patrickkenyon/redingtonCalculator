@@ -55,7 +55,7 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getCalcType():string
+    public function getCalcType(): string
     {
         return $this->calcType;
     }
