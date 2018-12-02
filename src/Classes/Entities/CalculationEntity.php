@@ -5,23 +5,24 @@ namespace Calculator\Entities;
 
 class CalculationEntity
 {
-    private $probabilityA;
-    private $probabilityB;
+    private $probabilityOne;
+    private $probabilityTwo;
     private $result;
     private $calcType;
     private $date;
 
+
     /**
      * CalculationEntity constructor.
-     * @param $probabilityA
-     * @param $probabilityB
-     * @param $result
-     * @param $calcType
+     * @param string $probabilityOne
+     * @param string $probabilityTwo
+     * @param string $result
+     * @param string $calcType
      */
-    public function __construct(string $probabilityA, string $probabilityB, string $result, string $calcType)
+    public function __construct(string $probabilityOne, string $probabilityTwo, string $result, string $calcType)
     {
-        $this->probabilityA = $probabilityA;
-        $this->probabilityB = $probabilityB;
+        $this->probabilityOne = $probabilityOne;
+        $this->probabilityTwo = $probabilityTwo;
         $this->result = $result;
         $this->calcType = $calcType;
         $this->date = date("Y-m-d");
@@ -30,17 +31,17 @@ class CalculationEntity
     /**
      * @return mixed
      */
-    public function getProbabilityA(): string
+    public function getProbabilityOne(): string
     {
-        return $this->probabilityA;
+        return $this->probabilityOne;
     }
 
     /**
      * @return mixed
      */
-    public function getProbabilityB(): string
+    public function getProbabilityTwo(): string
     {
-        return $this->probabilityB;
+        return $this->probabilityTwo;
     }
 
     /**
@@ -66,6 +67,4 @@ class CalculationEntity
     {
         return $this->date;
     }
-
-
 }

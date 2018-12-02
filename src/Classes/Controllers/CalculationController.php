@@ -22,12 +22,21 @@ class CalculationController
         $this->calculationModel = $calculationModel;
     }
 
-    public function __invoke(Request $request, Response $response): Response
+    /**
+     * This receives a http request containing probability data. The data is sent to the validator for validation and, once
+     * confirmed the initial probabilities, result, calculation type and date are logged to a text file.
+     *
+     * @param Request $request is a http request containing two probabilities between 0 and 1 as well as the calculation type.
+     * @param Response $response is a http response
+     * @return Response JSON contains (array) $data and (int) $statusCode, indicating success or failure information
+     * as well as the result of the calculation.
+     */
+    public function __invoke(Request $request, Response $response)
     {
         $data = [
             'success' => false,
             'msg' => 'Failed to log calculation.',
-            'data' => []
+            'result' => ''
         ];
         $statusCode = 406;
 
@@ -58,7 +67,7 @@ class CalculationController
         );
 
         try {
-            $successfulLog = $this->calculationModel->log($calculationEntity);
+            $successfulLog = $this->calculationModel->logCalculation($calculationEntity);
         } catch (\Error $e) {
             $statusCode = 500;
             return $response->withJson($data, $statusCode);
@@ -68,21 +77,35 @@ class CalculationController
             $data = [
                 'success' => $successfulLog,
                 'msg' => 'Successfully logged the calculation.',
-                'data' => []
+                'result' => $result
             ];
             $statusCode = 200;
         }
         return $response->withJson($data, $statusCode);
     }
 
-    public function combinedWith(string $probA, string $probB): string
+    /**
+     * Takes two user defined probabilities and returns their sum.
+     *
+     * @param string $probOne is a user defined number between 0 and 1.
+     * @param string $probTwo is a user defined number between 0 and 1.
+     * @return string is the sum of the two initial probabilities.
+     */
+    public function combinedWith(string $probOne, string $probTwo): string
     {
-        return $probA * $probB;
+        return $probOne * $probTwo;
     }
 
-    public function either(string $probA, string $probB): string
+    /**
+     * Takes two user defined probabilities and performs a calculation upon them as indicated below.
+     *
+     * @param string $probOne is a user defined number between 0 and 1.
+     * @param string $probTwo is a user defined number between 0 and 1.
+     * @return string is the total of $probOne and $probTwo minus the sum of probOne and probTwo.
+     */
+    public function either(string $probOne, string $probTwo): string
     {
-        return $probA + $probB - ($probA * $probB);
+        return $probOne + $probTwo - ($probOne * $probTwo);
     }
 }
 

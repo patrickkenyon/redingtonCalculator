@@ -1,7 +1,8 @@
 document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault()
 
-    document.querySelector('.statusMessage').textContent = ''
+    document.querySelector('#statusMessage').textContent = ''
+    document.querySelector('#showResult').textContent = ''
 
     document.querySelectorAll('.error').forEach(function (error) {
         error.remove()
@@ -28,7 +29,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
 })
 
 /**
- * Checks if input is given and whether it is a number between 0 and 1.
+ * Checks if an input is given and whether it is a number between 0 and 1.
  *
  * @param input value of field to be checked.
  * @returns {boolean} false unless input is a number between 0 and 1.
@@ -39,9 +40,10 @@ function validateField(input) {
 
 
 /**
- * Retrieves values from form fields.
+ * Retrieves values from form fields and the calculation type performed.
  *
- * @returns {object} with keys as field names and value as the field value, object also contains the calculation type.
+ * @returns {object} with keys as field names and value as the field value,
+ * object also contains a key value pair for calculation type.
  */
 function getFormData() {
     let formData = {}
@@ -81,11 +83,13 @@ async function fetchData(formData) {
 function sendRequest(formData) {
     fetchData(formData).then(function (data) {
         if (data.success) {
-            document.querySelector('.statusMessage').textContent = 'Success!'
+            let result = data.result
+            document.querySelector('#statusMessage').textContent = 'Successfully logged!'
+            document.querySelector('#showResult').textContent = 'The result of your chosen calculation is: ' + result
         } else {
-            document.querySelector('.statusMessage').textContent = 'Logging error'
+            document.querySelector('#statusMessage').textContent = 'Logging error'
         }
     }).catch(function (err) {
-        document.querySelector('.statusMessage').textContent = 'Ajax error: ' + err
+        document.querySelector('#statusMessage').textContent = 'Ajax error: ' + err
     })
 }

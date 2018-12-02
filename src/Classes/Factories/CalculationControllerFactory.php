@@ -8,6 +8,9 @@ use Calculator\Models\CalculationModel;
 
 class CalculationControllerFactory
 {
+    /**
+     * @return CalculationController
+     */
     public function __invoke()
     {
         $calculationModel = new CalculationModel();
