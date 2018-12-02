@@ -6,28 +6,38 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="js/calculator.js" defer></script>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-<h1>Calculator</h1>
-<div id="message"></div>
-<form id="calculatorForm">
-    <div class="formField">
-        <label for="probabilityOne" class="calculatorLabels">Probability One</label>
-        <input type="text" id="probabilityOne" class="probabilities field" name="probabilityOne" data-required="true">
-    </div>
-    <div class="formField">
-        <label for="probabilityTwo" class="calculatorLabels">Probability Two</label>
-        <input type="text" id="probabilityTwo" class="probabilities field" name="probabilityTwo" data-required="true">
-    </div>
-    <div class="formRadio">
-        <input type="radio" name="calcType" id="combinedWith" value="combinedWith" checked><label for="combinedWith" class="calculatorLabels">Combined With</label>
-        <input type="radio" name="calcType" id="either" value="either"><label for="either" class="calculatorLabels">Either</label>
-    </div>
+<div class="calculator-wrapper">
+    <h1>Calculator</h1>
+    <div id="message"></div>
+    <form id="calculatorForm">
+        <div class="formField">
+            <label for="probabilityOne" class="calculatorLabels">Probability One</label>
+            <input type="text" id="probabilityOne" class="probabilities field" name="probabilityOne" data-required="true">
+        </div>
+        <div class="formField">
+            <label for="probabilityTwo" class="calculatorLabels">Probability Two</label>
+            <input type="text" id="probabilityTwo" class="probabilities field" name="probabilityTwo" data-required="true">
+        </div>
+        <div class="formRadio">
+            <input type="radio" name="calcType" id="combinedWith" value="combinedWith" checked><label for="combinedWith" class="calculatorLabels">Combined With</label>
+            <input type="radio" name="calcType" id="either" value="either"><label for="either" class="calculatorLabels">Either</label>
+        </div>
+        <div class="buttonWrapper">
+            <input type="submit" class="button">
+        </div>
+    </form>
     <div class="buttonWrapper">
-        <input type="submit" id="calculatorSubmit">
+        <a href="/" class="button">Refresh page</a>
     </div>
-</form>
-<p id="statusMessage"></p>
-<p id="showResult"></p>
+    <div class="message-wrapper">
+        <p  id="statusMessage"></p>
+    </div>
+    <div class="message-wrapper">
+        <p id="showResult"></p>
+    </div>
+</div>
 </body>
 </html>
